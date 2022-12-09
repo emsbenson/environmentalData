@@ -23,17 +23,11 @@ ggplot(hawaiiData, aes(Date, mmaxPM2.5, color = county))+
         plot.title = element_text(size = 18, face = "bold"),
         legend.title = element_text(size=16))
 
-# getting rid of the outlier for fun
-hawaiinooutlier <- hawaiiData %>%
-   filter(mmaxPM2.5 <= 300)
-
-ggplot(hawaiinooutlier, aes(Date, mmaxPM2.5, color = county))+
-   geom_point()+
-   geom_line()+
-   ggtitle("Maximum Air Quality Levels Per Month")
+hawaiinozero <- hawaiiData %>%
+  filter(mmeanPM2.5 >= 1)
 
 # mean data time series
-ggplot(hawaiiData, aes(Date, mmeanPM2.5, color = county))+
+ggplot(hawaiinozero, aes(Date, mmeanPM2.5, color = county))+
    geom_point()+
   geom_line()+
    ggtitle("Monthly Average Air Quality Levels")+
@@ -176,6 +170,9 @@ abline(pmean.lm, lwd=2)
 
 #regression table
 summary(pmean.lm)
+
+cor(pmean$Year, pmean$AQMean)
+#-0.8319
 
 ### make max residual plot honolulu----
 plot(hmax$Year, hmax.res, 
